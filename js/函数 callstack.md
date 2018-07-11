@@ -36,7 +36,23 @@ c(); //line 6
 8. a()执行完成
 9. 开始执行b().........
 
-callstack其实就是记住函数执行时的位置，当函数执行完成后再回到刚才记住的位置
+所以说JS在执行函数调用时会记住函数执行时的位置，当函数执行完成后再回到刚才记住的位置，然后再执行后续的函数。存放“位置信息”的那个地方就是callstack
+
+可以使用这个站点来查看JS函数的callstack： http://latentflip.com/loupe
 
 
+## 递归的callstack
+```
+function fab(n){
+   console.log('start calc fab ' + n);
+   if(n>3){
+      return fab(n-1) + fab(n-2);
+   }
+   else{
+      return 1
+   }
+}
 
+fab(5)
+
+```
