@@ -1,5 +1,5 @@
 ## 什么是bind()
-`call()` 和 `apply()`都是直接**调用**函数。而`bind()`并**不调用函数**，而是返回一个新的函数。这个新的的函数会call原来的函数，call的参数由你决定。
+`call()` 和 `apply()`都是直接**调用**函数。而`bind()`并**不调用函数**，而是返回一个新的函数。这个新的的函数被调用时会call原来的函数，call的参数由你决定。
 
 ## 举例说明
 
@@ -10,7 +10,8 @@ var view = {
   bindEvent: function(){
      this.element.onclick = function bindOnClick(){
         //this 这里的this已经变了，不再是view. 这个匿名函数的中的this为#div1,在用户点击#div1元素时由浏览器指定
-        view.onClick();
+        //所以不能写成this.onClick()
+        view.onClick() => view.onClick.call(view);
      }
   }，
   onClick:function(){
@@ -21,6 +22,8 @@ var view = {
 
 ```
 
-`bindOnClick()`是用来绑定#div1元素和事件处理函数`view.Onclick`的。此时，点击div1的话会触发`view.onClick()` 但是onClick()中的this发生了变化，已经不是view了，而是元素div1(因为onClick是在 bindOnClick()中被触发的)，所以自然就找不到element属性了。
+`bindOnClick()`是用来绑定#div1元素和事件处理函数`view.Onclick`的。此时，点击div1的话会触发`view.onClick()` 
 
-那么可以使用call()来解决这个问题吗？ 可惜的是， `bindOnClick()`并不能使用`this.onClick.call(this)`来代替，因为使用call的话会立即执行onClick(),而我们并不希望这样。 所以，这种场景就是bind()的用武之地了， ` this.element.onclick = this.onClick.bind(this)`,  这句代码等价于bindOnClick， **而且bind()还能指定this,此时bind()传递的this就是view**
+那么可以使用call()来解决这个问题吗？ 可惜的是， `bindOnClick()`并不能使用`this.onClick.call(this)`来代替，因为使用call的话会立即执行onClick(),而我们并不希望这样。 所以，这种场景就是bind()的用武之地了， ` this.element.onclick = this.onClick.bind(this)`,  这句代码等价于`function bindOnClick`， **而且bind()还能指定参数,此时bind()传递的this就是view**
+
+使用bind()是不是简便和优雅很多呢？
