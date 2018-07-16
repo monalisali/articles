@@ -38,11 +38,13 @@ var person = {
 person.sayName(person)
 
 ```
-`sayName()`要能获取到person对象的name属性，它就必须接受一个person对象。 代码可以正常工作，但是非常的奇怪：person调用自己的`sayName()`，但`sayName()`却不知道person对象。
+`sayName()`要能获取到person对象的name属性，它就必须接受一个person对象。 代码的确可以正常工作，但是非常的奇怪：person调用自己的`sayName()`，但`sayName()`却不知道person对象是什么，必须在调用时传递给`sayName()`才可以。
 
-如果能这样写代码就好了 `person.sayName()` 所以JS之父就发明了this这个语法糖。**this是个占位符**，传给它什么值它就是什么值。 **花括号调用时，点号之前的内容就是this的值**
+如果能这样写代码就好了 `person.sayName()`  这样的话就非常的直观：person对象调用自己的`sayName()`, `sayName()`认得person对象，在方法体内可以直接使用person对象。
 
-上面的代码需要改写成
+所以JS之父就发明了this这个语法糖。 this的作用其实**就是个占位符**，传给它什么值它就是什么值。 **花括号调用时，点号之前的内容就是this的值**
+
+上面的代码就可以改写成
 ```
 var person = {
    name: 'tom',
@@ -55,7 +57,7 @@ var person = {
 person.sayName() //点号之前的person对象就是this
 
 ```
-所以说，this就是对象与函数之间的羁绊。它把对象和函数关联起来了，就像关联person和sayName()
+>>> 所以说，this就是对象与函数之间的羁绊。它把对象和函数关联起来了，就像关联person和sayName()
 如果函数之前没有对象去调用它呢？那么此时的this代表什么？
 ```
 var fn2 = person.sayName;
