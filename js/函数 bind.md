@@ -3,3 +3,24 @@
 
 ## 举例说明
 
+下面这种写法很常见，element属性指定元素，onClick属性指定点击操作的函数，bindEvent属性绑定元素和事件
+```
+var view = {
+  element:$('#div1'),
+  bindEvent: function(){
+     this.element.onclick = function bindOnClick(){
+        //this 这里的this已经变了，不再是view. 这个匿名函数的中的this为#div1,在用户点击#div1元素时由浏览器指定
+        view.onClick();
+     }
+  }，
+  onClick:function(){
+    this.element.addClass('active');
+  }
+
+}
+
+```
+
+`bindOnClick()`是用来绑定#div1元素和事件处理函数`view.Onclick`的。此时，点击div1的话会触发`view.onClick()` 但是onClick()中的this发生了变化，已经不是view了，而是元素div1(因为onClick是在 bindOnClick()中被触发的)，所以自然就找不到element属性了。
+
+那么可以使用call()来解决这个问题吗？ 可惜的是， `bindOnClick()`并不能使用`this.onClick.call(this)`来代替，因为使用call的话会立即执行onClick(),而我们并不希望这样。 所以，这种场景就是bind()的用武之地了， ` this.element.onclick = this.onClick.bind(this)`,  这句代码等价于bindOnClick， **而且bind()还能指定this,此时bind()传递的this就是view**
