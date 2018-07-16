@@ -57,7 +57,8 @@ var person = {
 person.sayName() //点号之前的person对象就是this
 
 ```
->所以说，this就是对象与函数之间的羁绊。它把对象和函数关联起来了，就像关联person和sayName()
+> 所以说，this就是对象与函数之间的羁绊。它把对象和函数关联起来了，就像关联person和sayName()
+
 如果函数之前没有对象去调用它呢？那么此时的this代表什么？
 ```
 var fn2 = person.sayName;
