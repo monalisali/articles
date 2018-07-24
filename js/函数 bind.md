@@ -3,13 +3,18 @@
 
 ## 举例说明
 
-下面这种写法很常见，element属性指定元素，onClick属性指定点击操作的处理函数，bindEvent属性绑定元素和事件
+下面这种写法很常见，element属性指定元素，onClick属性指定点击操作的处理函数，bindEvent属性绑定元素和事件。
+特别注意bindEvent属性中的写法，我们的需求是：在bindEvent属性中为#div1元素绑定事件处理函数view.onClick 
+
+*整个`function bindOnClick`的代码可以直接使用`this.onclick.bind(this)`来代替。这里只是用`function bindOnClick`来演示bind和call之间的关系*
+
 ```
 var view = {
   element:$('#div1'),
   bindEvent: function(){
+     //
      this.element.onclick = function bindOnClick(){
-        //this 这里的this已经变了，不再是view. 这个匿名函数的中的this为#div1,在用户点击#div1元素时由浏览器指定
+        //this：这里的this已经变了，不再是view对象。 这个bindOnClick函数中的this为#div1,在用户点击#div1元素时由浏览器指定
         //所以不能写成this.onClick()
         view.onClick() => view.onClick.call(view);
      }
@@ -17,13 +22,12 @@ var view = {
   onClick:function(){
     this.element.addClass('active');
   }
-
 }
 
 ```
 
-`bindOnClick()`是用来绑定#div1元素和事件处理函数`view.Onclick`的。此时，点击div1的话会触发`view.onClick()` 
-
-那么可以使用call()来解决这个问题吗？ 可惜的是， `bindOnClick()`并不能使用`this.onClick.call(this)`来代替，因为使用call的话会立即执行onClick(),而我们并不希望这样。 所以，这种场景就是bind()的用武之地了， ` this.element.onclick = this.onClick.bind(this)`,  这句代码等价于`function bindOnClick`， **而且bind()还能指定参数,此时bind()传递的this就是view**
+首先考虑，可以使用call()来解决这个问题吗？如: `this.element.onclick = this.onClick.call(this)` 
+可惜的是， `bindOnClick()`并不能使用`this.onClick.call(this)`来代替。 因为使用call的话会立即执行onClick(),而我们并不希望这样。 
+所以，这种场景就是bind()的用武之地了： ` this.element.onclick = this.onClick.bind(this)` **这句代码等价于上方`function bindOnClick`中的整个代码， **而且bind()还能指定参数,此时bind()传递的this就是view
 
 使用bind()是不是简便和优雅很多呢？
