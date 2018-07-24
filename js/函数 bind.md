@@ -3,7 +3,7 @@
 
 ## 举例说明
 
-下面这种写法很常见，element属性指定元素，onClick属性指定点击操作的函数，bindEvent属性绑定元素和事件
+下面这种写法很常见，element属性指定元素，onClick属性指定点击操作的处理函数，bindEvent属性绑定元素和事件
 ```
 var view = {
   element:$('#div1'),
