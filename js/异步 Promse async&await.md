@@ -7,7 +7,9 @@ Promise 是一个对象，对象里存储一个状态，这个状态是可以随
 
 Promise 启动之后，当满足成功的条件时我们让状态从 pending 变成 fullfilled （执行 resolve）；当满足失败的条件，我们让状态从 pending 变成 rejected（执行 reject）
 
-## Promise的then方法
+Promise最大的作用是用来解决回调地狱。
+
+## Promise.prototype.then()
 Promsise对象的then方法接受两个参数，这个两个参数都是callback，一个表示成功，另一个表示失败。
 
 axios也是遵守Promise规范的，所以它也有then()
@@ -20,9 +22,15 @@ axios({
   .then(s3,e3)
   
 ```
-3个then()的执行逻辑是: s1或者e1执行成功，只要不报错就执行s2,否则执行e2; s2或者e2执行成功，只要不报错就执行s3,否则执行e3
+3个then()的执行逻辑是: s1或者e1执行成功，只要不报错就执行s2,否则执行e2; s2或者e2执行成功，只要不报错就执行s3,否则执行e3。如果错误一直没有被处理，那么就会抛给开发者（在console中报错）
+
+
+## Promise.prototype.reject()
+可以使用reject()来主动让Promise执行错误
+
 
 ## Promise 举例
+then()中的reject回调有时候可以偷懒不传递，然后使用Promise提供的catch()来兜底处理错误。
 
 ```
 function getIp() {
@@ -86,4 +94,9 @@ getIp().then(function(ip){
 })
 
 ```
+
+
+## async & await
+
+
 
