@@ -41,6 +41,7 @@ function getIp() {
   return promise
 }
 
+
 function getCityFromIp(ip) {
   var promise = new Promise(function(resolve, reject){
     var xhr = new XMLHttpRequest()
@@ -56,6 +57,8 @@ function getCityFromIp(ip) {
   })
   return promise
 }
+
+
 function getWeatherFromCity(city) {
   var promise = new Promise(function(resolve, reject){
     var xhr = new XMLHttpRequest()
