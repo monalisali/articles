@@ -97,6 +97,29 @@ getIp().then(function(ip){
 
 
 ## async & await
+类似于C#中的async, await.  使本来异步的方法，变得同步了，就是说只有等await后的代码执行完毕后才会执行下一行代码
 
+```
+function buyFruit(){
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+          url：XXX
+          success:resolve,
+          error: reject
+        })
+        
+    })
+}
+
+
+async functon fn(){
+    var result = await buyFruit()
+    return result
+}
+
+var r = await fn(); // 只有等fun()执行完成后，才会执行下一行代码
+console.log(r)
+
+```
 
 
