@@ -42,7 +42,7 @@ person.sayName(person)
 
 如果能这样写代码就好了 `person.sayName()`  这样的话就非常的直观：person对象调用自己的`sayName()`, `sayName()`认得person对象，在方法体内可以直接使用person对象。
 
-所以JS之父就发明了this这个语法糖。 this的作用其实**就是个占位符**，传给它什么值它就是什么值。 **花括号调用时，点号之前的内容就是this的值**
+所以JS之父就发明了this这个语法糖。 this的作用其实**就是个占位符**，传给它什么值它就是什么值。 **括号调用时，点号之前的内容就是this的值**
 
 上面的代码就可以改写成
 ```
@@ -75,6 +75,19 @@ person.sayName.call(person)
 ```
 person.sayName.call({name: 'yy'}) Hi,my name is yy
 ```
+
+那么在回到开头的问题：为什么使用call()传递的this参数是基本类型10，但是fn()打印出来的却是个Number对象。这是JS在设计之初的一个缺陷，JS会对传递进来的this参数擅自进行修改。如果不想让JS瞎操作的话，可以在fn()中使用 `'use strict'`
+
+```
+function fn(){
+  'use strict'
+  console.log(this);
+  console.log(arguments)
+}
+
+```
+
+
 
 ## call() 和 apply()
 
