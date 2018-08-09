@@ -9,8 +9,8 @@ function fn(){
 
 fn.call(); //windows, []
 fn.call({name: 'tom'}); // {name: 'tom'}, []
-fn.call({name: 'tom'}, 1); // {name: 'tome'}, [1]
-fn.call({name: 'tom'}, 1,2); // {name: 'tome'}, [1,2]
+fn.call({name: 'tom'}, 1); // {name: 'tom'}, [1]
+fn.call({name: 'tom'}, 1,2); // {name: 'tom'}, [1,2]
 
 ```
 
