@@ -34,7 +34,34 @@ var view = {
 1. 当'#div1'被点击时，`this.onClick.call(this)`中的this并不是view，而是'#div1'
 2. `this.onClick.call(this)` 会立即执行，而不是在'#div1'元素被点击时执行。
 
-假设已有函数f，是不是有一种方法可以为f生成一个新函数，新函数在执行时会调用f。
-这种场景就是bind()的用武之地了： ` this.element.onclick = this.onClick.bind(this)` **这句代码等价于上方`function bindOnClick`中的整个代码，** 而且bind()还能指定参数,此时bind()传递的this就是view
+那么假设已有函数f，是不是有一种方法可以为f生成一个新函数，新函数在执行时会调用f。而不用再创建一个匿名函数来包裹f了。
+这种场景就是bind()的用武之地了： 
+``` 
+this.element.onclick = this.onClick.bind(this) //bind()传递的this就是view
+```
+**这句代码等价于上方`function bindOnClick`中的整个代码，** 而且bind()还能指定参数(this,agruments)。
 
 使用bind()是不是简便和优雅很多呢？
+
+
+## bind的本质
+下面的代码揭示了bind的本质：bind方法其实就是生成了 '确定了this和args的f'这个函数而已。
+```
+function f (){
+   console.log(this);
+   console.log(arguments);
+}
+
+//这就是bind方法生成的函数
+function 确定了this和args的f (){
+    f.call({name:'tom'},1)
+}
+
+var f1 = f.bind({name:'tom'},1);
+f1();
+确定了this和args的f();
+
+
+```
+
+
