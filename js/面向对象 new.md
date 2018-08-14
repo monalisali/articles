@@ -33,7 +33,7 @@ for(var i=0; i<99;i++)
   soliders.push(solider);
 }
   
-//把士兵们[]传递给需要的方法
+//把soliders数组传递给需要的方法
 Barracks.batchCreate(soliders);
 
 ```
