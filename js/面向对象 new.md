@@ -142,11 +142,90 @@ Barracks.batchCreate(soliders);
 
 我们把共用对象(原来叫soliderCommon, 现在叫xxx)定义在了构造函数CreateSolider中。这样的话，构造函数CreateSolider和共用对象联系就紧密了，因为共用属性就定义在CreateSolider内。
 
-**xxx在JS被叫做：prototype 所以，上面这个代码可以表述为：对象的__proto__属性指向其构造函数的prototype对象**
 
 
+代码终于完美了。
 
 
+## 来自JS之父的关怀
+
+上文第3点这种写法很好，但是每次创建一个构造函数都要做类似的事情：
+1.定义一个xxx对象作为共用对象
+2.要把创建出的对象（如：示例中的obj）的__proto__指向 xxx
+3.最后还要返回创建的对象
+
+JS之父看到了这个问题，于是它做了两件事：
+1.规定xxx叫做：prototype
+2.发明了关键在new。 使用new后：
+-- 不用把创建出的对象的__proto__指向 xxx，
+-- 不用在构造函数中返回创建的对象了。
+-- 不用再为创建的构造函数想名字了（上方示例中的obj），用this代替即可
+
+代码可以改成：
+```
+var soliders = [];
+function CreateSolider(i){ 
+    this.ID: i, 
+}
+
+/* 创建CreateSolider函数后，CreateSolider.prototype.constructor会被自动赋值为CreateSolider
+CreateSolider.prototype = {
+  constructor: CreateSolider
+}
+*/
+
+
+//CreateSolider.prototype指向了一个新的对象，需要把原先对象的数据给补录进来，如constructor属性的值
+CreateSolider.prototype = {
+   constructor: CreateSolider, //重新为constructor赋值
+   type: '中国海军', //不是只有函数才可以放到共用对象中，属性也是可以的
+   walk:function(){},
+   run:function(){ },
+   eat:function(){ }, 
+};
+
+
+for(var i=0; i<99; i++){
+   soliders.push(new CreateSolider(i));
+}
+
+Barracks.batchCreate(soliders);
+
+```
+
+CreateSolider函数后，CreateSolider.prototype就会被自动赋值，所以针对CreateSolider.prototype的操作都要写在构造函数定义之后。同时，当我们写`CreateSolider.prototype = {......}` 来创建共用对象时，会让`CreateSolider.prototype`指向一个新的对象。那么，必然会丢失原来对象中的一些内容，如:constructor属性的值。需要把这些内容重新补录进来。
+
+
+**更推荐的写法**
+
+更安全的写法是在现有`CreateSolider.prototype`对象上添加属性，这样就不必补录数据了。
+```
+var soliders = [];
+function CreateSolider(i){ 
+    this.ID: i, 
+}
+
+//直接在现有的CreateSolider.prototype对象上添加
+CreateSolider.prototype.type: '中国海军'; //不是只有函数才可以放到共用对象中，属性也是可以的
+CreateSolider.prototype.walk:function(){};
+CreateSolider.prototype.run:function(){ };
+CreateSolider.prototype.eat:function(){ };
+
+for(var i=0; i<99; i++){
+   soliders.push(new CreateSolider(i));
+}
+
+Barracks.batchCreate(soliders);
+
+```
+
+## 总结
+1. 创建对象最好使用构造函数
+2. new关键字自动的为我们做了一些事情
+   - 创建了一个临时对象，用this来表示
+   - 自动return构造函数创建的对象
+   - 把对象的__proto__指向构造函数的prototype对象
+3. **对象的__proto__属性指向其构造函数的prototype对象**
 
 
 
