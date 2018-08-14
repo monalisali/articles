@@ -165,7 +165,7 @@ JS之父看到了这个问题，于是它做了两件事：
 ```
 var soliders = [];
 function CreateSolider(i){ 
-    this.ID: i, 
+    this.ID = i;
 }
 
 /* 创建CreateSolider函数后，CreateSolider.prototype.constructor会被自动赋值为CreateSolider
@@ -201,8 +201,13 @@ CreateSolider函数后，CreateSolider.prototype就会被自动赋值，所以�
 更安全的写法是在现有`CreateSolider.prototype`对象上添加属性，这样就不必补录数据了。
 ```
 var soliders = [];
+
 function CreateSolider(i){ 
-    this.ID: i, 
+    //new关键字自动： this = {};
+    //new关键字自动： this.__proto__ = CreateSolider.prototype;
+    this.ID = i;
+    
+    //new关键字自动： return this;
 }
 
 //直接在现有的CreateSolider.prototype对象上添加
