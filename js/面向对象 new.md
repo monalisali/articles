@@ -83,6 +83,7 @@ Barracks.batchCreate(soliders);
 
 2. 利用构造函数使代码更紧凑一点
 
+使用构造函数可以封装创建士兵的细节。
 ```
 var soliders = [];
 var soliderCommon = {
@@ -101,17 +102,47 @@ function CreateSolider(i){
 }
 
 for(var i=0; i<99; i++){
-   var obj = CreateSolider(i);
-   soliders.push(obj);
+   soliders.push(CreateSolider(i));
+}
+
+Barracks.batchCreate(soliders);
+
+```
+优化到这里，已经很完美了。遗留的唯一缺陷就是：**代码太分散了。** 分散的具体表现在：CreateSolider函数是依赖于soliderCommon对象的，没有soliderCommon对象的话，CreateSolider函数就会报错。但是，它们两者之间除了名字都带有solider以外，没有任何联系。在代码很多的情况下，soliderCommon对象是很有可能被人不小心移走的。
+
+所以，我们应该想办法让 CreateSolider函数和soliderCommon对象联系的更紧密一点
+
+3. 把共用属性作为构造函数的一个属性
+
+```
+var soliders = [];
+//在构造函数中定义了共用属性XXX
+CreateSolider.xxx = {
+   type: '中国海军', //不是只有函数才可以放到共用对象中，属性也是可以的
+   walk:function(){},
+   run:function(){ },
+   eat:function(){ }, 
+};
+
+function CreateSolider(i){
+   var solider = {
+    ID: i, 
+  }
+  solider.__proto__ = CreateSolider.xxx;
+  return solider;
+}
+
+for(var i=0; i<99; i++){
+   soliders.push(CreateSolider(i));
 }
 
 Barracks.batchCreate(soliders);
 
 ```
 
+我们把共用对象(原来叫soliderCommon, 现在叫xxx)定义在了构造函数CreateSolider中。这样的话，构造函数CreateSolider和共用对象联系就紧密了，因为共用属性就定义在CreateSolider内。
 
-
-
+**xxx在JS被叫做：prototype 所以，上面这个代码可以表述为：对象的__proto__属性指向其构造函数的prototype对象**
 
 
 
