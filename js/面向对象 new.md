@@ -192,9 +192,9 @@ Barracks.batchCreate(soliders);
 
 
 ```
-定义CreateSolider函数后，就自动有了CreateSolider.prototype对象。CreateSolider.prototype对象中的某些值也会被自动赋值，如:constructor会被自动赋值为CreateSolider。 
+定义CreateSolider函数后，CreateSolider函数就自动有了prototype对象，CreateSolider.prototype对象中的某些值也会被自动赋值，如:constructor会被自动赋值为CreateSolider。 
 
-所以针对CreateSolider.prototype的操作都要写在构造函数定义之后。如果像下面这样写的话，定义CreateSolider函数后CreateSolider.prototype就会被覆盖，type,walk,run等内容就都没有了。
+**所以针对`CreateSolider.prototype`的操作都要写在构造函数定义之后。** 如果像下面这样写的话， 定义CreateSolider函数后会再次为CreateSolider.prototype 赋值，如：`CreateSolider.prototype = { constructor: CreatSolider }`,前面定义的type,walk,run等内容就都没有了。
 
 ```
 CreateSolider.prototype = {
@@ -210,12 +210,12 @@ function CreateSolider(i){
 }
 
 ```
-反过来讲，当我们用正确的顺序来创建`CreateSolider.prototype = {......}` 共用对象时，又会覆盖掉原先的CreateSolider.prototype对象。而这个原先的对象中有些值已经被赋值了，如：constructor属性。所以，要有一个补录的操作。
+反过来讲，当我们用正确的顺序来创建`CreateSolider.prototype` 共用对象时，又会覆盖掉原先的CreateSolider.prototype对象。而这个原先的对象中有些值已经被赋值了，如：constructor属性。所以，才会有一个补录的操作。
 
 
 **更推荐的写法**
 
-更安全的写法是在现有`CreateSolider.prototype`对象上添加属性，这样就不必补录数据了。
+更安全的写法是在现有`CreateSolider.prototype`对象上**添加**属性，这样就不必补录数据了。
 ```
 var soliders = [];
 
