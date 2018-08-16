@@ -9,6 +9,11 @@
 2.组件代码
 
 2.1 JS
+Tab组件的JS代码有几个技巧需要关注一下：
+1. 在构造函数Tabs中，把选择器selector选中的元素赋值给了elements属性。这样可以方便后续函数使用selector元素，如：init函数
+2. 
+
+
 ```
 function Tabs(selector){
   this.elements = $(selector);
@@ -16,6 +21,7 @@ function Tabs(selector){
   this.bindEvents();
 };
 
+//init:默认选中第一个tab和content
 Tabs.prototype.init = function(){
    this.elements.each(function(index,element){
       $(element).children('.tabs-bar').children('li').eq(0).addClass('active');
