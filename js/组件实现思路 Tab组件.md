@@ -30,7 +30,7 @@ Tabs.prototype.bindEvents = function(){
      //显示对应的content
      var index = $li.index();
      var $content = $li.closest('.tabs').find('.tabs-content > li').eq(index);
-     $content.addClass('active').siblings().removeClass('active') 
+     $content.addClass('active').siblings().removeClass('active');
   }); 
 }
 
