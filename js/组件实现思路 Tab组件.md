@@ -7,6 +7,7 @@
 
 
 2.组件代码
+
 2.1 JS
 ```
 function Tabs(selector){
