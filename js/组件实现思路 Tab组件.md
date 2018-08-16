@@ -10,8 +10,8 @@
 
 2.1 JS
 Tab组件的JS代码有几个技巧需要关注一下：
-1. 在构造函数Tabs中，把选择器selector选中的元素赋值给了elements属性。这样可以方便后续函数使用selector元素，如：init函数
-2. 
+1.在构造函数Tabs中，把选择器selector选中的元素赋值给了elements属性。这样可以方便后续函数使用selector元素，如：init函数
+2.需要暴露和用户的内容，都写在prototype中 
 
 
 ```
