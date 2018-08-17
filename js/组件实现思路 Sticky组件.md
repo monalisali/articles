@@ -99,6 +99,8 @@ $(window).on('scroll',function(){
 1. `new Sticky([selector],<n>)` 把需要Sticky效果的元素和高度传递给构造函数，选择器是必须的，高度是可选的。
 
 
+### 代码
+
 #### CSS
 
 ```
