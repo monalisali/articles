@@ -1,6 +1,7 @@
 
 ## 先定义接口
 首先，我们设想一下用户（其他程序员）如何使用这个Dialog组件比较方便。
+
 可能是这样使用的
 ```
 button.onclick = function(){
@@ -34,8 +35,8 @@ Dialog组件会提供一些列属性让用户可以自定义弹出框的UI，按
 Jquery
 
 #### 接口
-属性：title, content, className
-函数：open, close
+- 属性：title, content, className
+- 函数：open, close
 
 #### CSS
 
