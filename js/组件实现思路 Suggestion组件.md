@@ -19,3 +19,114 @@ var suggestion = new Suggestion({
 
 })
 ```
+
+
+```
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+
+    <style>
+        .easySuggestion {
+            position: relative;
+            border: 1px solid red;
+            display: inline-block;
+        }
+
+        .easySuggestion-loading {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            display: none;
+        }
+
+        .easySuggestion.loading .easySuggestion-loading {
+            display: block;
+        }
+
+        .easySuggestion-list {
+            position: absolute;
+            border: 1px solid green;
+            top: 100%;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            width: 100%;
+        }
+        
+        .easySuggestion.loading
+        .easySuggestion-list{
+            display: none
+        }
+
+    </style>
+
+    <script> 
+        $(document).ready(function () {
+            function Suggestion(options) {
+                this.options = options;
+                this.$input = $(options.input);
+                this.$input.wrap('<div class="easySuggestion"></div>');
+                this.$wrapper = this.$input.parent();
+                this.$ol = $('<ol class="easySuggestion-list"></ol>');
+                this.$input.after(this.$ol);
+                this.$loading = $('<div class="easySuggestion-loading"></div>');
+                this.$loading.html(this.options.loadingTemplate);
+                this.$ol.after(this.$loading);
+                this.bindEvents();
+            };
+
+            Suggestion.prototype.bindEvents = function () {
+                var inputObj = this;
+                this.$input.on('input', function (e) {
+                    inputObj.$wrapper.addClass('loading');
+                    inputObj.options.search(e.currentTarget.value, function (array) {
+                        inputObj.$wrapper.removeClass('loading');
+                        inputObj.$ol.empty();
+                        array.forEach(function (text) {
+                            inputObj.$ol.append($('<li></li>').text(text));
+                        })
+                    })
+                })
+            }
+
+
+            var s = new Suggestion({
+                input: '#suggestion',
+                search: function (text, callback) {
+                    let array = [];
+                    //模拟数据源
+                    for (let i = 0; i < 5; i++) {
+                        var n = parseInt(Math.random() * 100, 10);
+                        array.push(text + n);
+                    }
+                    //模拟从后台获取数据
+                    setTimeout(function () {
+                        callback(array)
+                    }, 3000)
+                },
+                loadingTemplate: '<b>加载中</b>'
+
+            })
+        })
+    </script>
+
+
+
+</head>
+
+<body>
+    <input type="text" id="suggestion">
+</body>
+
+</html>
+```
