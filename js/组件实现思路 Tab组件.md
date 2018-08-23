@@ -1,14 +1,14 @@
 ## Tab 组件
-1. 使用组件的约定
+### 使用组件的约定
 - 容器div必须包含样式tabs
 - tab的bar和内容都是ol,li结构
 - tab bar的ol必须包含样式tabs-bar
 - tab content的ol必须包含样式tabs-content
 
 
-2.组件代码
+### 组件代码
 
-2.1 JS
+### JS
 Tab组件的JS代码有几个技巧需要关注一下：
 1.在构造函数Tabs中，把选择器selector选中的元素赋值给了elements属性。这样可以方便后续函数使用selector元素，如：init函数
 2.需要暴露和用户的内容，都写在prototype中 
@@ -43,7 +43,7 @@ Tabs.prototype.bindEvents = function(){
 
 ```
 
-2.2 CSS
+### CSS
 ```
 .tabs{}
 .tabs > ol {
