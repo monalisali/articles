@@ -35,8 +35,12 @@ Dialog组件会提供一些列属性让用户可以自定义弹出框的UI，按
 Jquery
 
 #### 接口
-- 属性：title, content, className
-- 函数：open, close
+- title: Dialog的title
+- content: Dailog主体显示内容
+- className：用户给Dialog自定义的class
+- buttons：Dialog的按钮定义，是一个数组。数组接受的对象为：{text:'按钮名称', action: 按钮执行的函数}; 
+- open: 打开窗口
+- close: 关闭窗口
 
 #### CSS
 
