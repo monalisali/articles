@@ -21,25 +21,79 @@ var suggestion = new Suggestion({
 ```
 
 
+## 封装组件
+
+### 接口
+- input: 根据用户提供的选择器对input元素进行初始化
+- search(text,callback): 用户通过text来提供suggestion数据，并把这个列表传递给callback
+   - text: input中输入的内容
+   - callback:组件通过这个callback来绘制suggestion列表
+- loadingTemplate: 数据加载时显示的内容
+- emptyTemplate: 没有suggestion数据时显示的内容
+
+
+#### js
+
+```
+function Suggestion(options) {
+                this.options = options;
+                this.$input = $(options.input);
+                this.$input.wrap('<div class="easySuggestion"></div>');
+                this.$wrapper = this.$input.parent();
+                this.$ol = $('<ol class="easySuggestion-list"></ol>');
+                this.$input.after(this.$ol);
+                this.$loading = $('<div class="easySuggestion-loading"></div>');
+                this.$loading.html(this.options.loadingTemplate);
+                this.$empty = $('<div class="easySuggestion-empty"></div>');
+                this.$empty.html(this.options.emptyTemplate);
+                this.$ol.after(this.$loading);
+                this.$ol.after(this.$empty);
+                this.bindEvents();
+            };
+
+            Suggestion.prototype.bindEvents = function () {
+                var timerId;
+                var inputObj = this;
+                this.$input.on('input', function (e) {
+                    //!!一定要做函数节流，否则每输入一次都会发送请求
+                    if (timerId) {
+                        window.clearTimeout(timerId);
+                    }
+                    timerId = setTimeout(function () {
+                        inputObj.search(e.currentTarget.value, inputObj);
+                        timerId = undefined;
+                    }, 1000);
+
+                })
+            }
+
+            Suggestion.prototype.search = function (keywords, inputObjValue) {
+                this.$wrapper.addClass('loading');
+                this.options.search(keywords, function (array) {
+                    inputObjValue.$wrapper.removeClass('loading');
+                    inputObjValue.$ol.empty();
+                    //没有数据时显示emptyTemplate   
+                    if (!array || array.length === 0) {
+                        inputObjValue.$wrapper.addClass('empty');
+                        return;
+                    }
+
+                    array.forEach(function (text) {
+                        inputObjValue.$ol.append($('<li></li>').text(text));
+                    })
+                })
+            }
 ```
 
+#### css
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
-
-    <style>
-        .easySuggestion {
+```
+.easySuggestion {
             position: relative;
             border: 1px solid red;
             display: inline-block;
         }
+
 
         .easySuggestion-loading {
             position: absolute;
@@ -47,10 +101,12 @@ var suggestion = new Suggestion({
             left: 0;
             display: none;
         }
+        /*.loading相当于一个状态控制。一旦easySuggestion上加了class loading, 那么加载内容的class easySuggestion-loading就要显示出来*/
 
         .easySuggestion.loading .easySuggestion-loading {
             display: block;
         }
+
 
         .easySuggestion-list {
             position: absolute;
@@ -62,71 +118,19 @@ var suggestion = new Suggestion({
             list-style: none;
             width: 100%;
         }
-        
-        .easySuggestion.loading
-        .easySuggestion-list{
+
+
+        .easySuggestion.loading .easySuggestion-list {
             display: none
         }
+        /*.empty状态控制*/
 
-    </style>
+        .easySuggestion.empty .easySuggestion-empty {
+            display: block;
+        }
 
-    <script> 
-        $(document).ready(function () {
-            function Suggestion(options) {
-                this.options = options;
-                this.$input = $(options.input);
-                this.$input.wrap('<div class="easySuggestion"></div>');
-                this.$wrapper = this.$input.parent();
-                this.$ol = $('<ol class="easySuggestion-list"></ol>');
-                this.$input.after(this.$ol);
-                this.$loading = $('<div class="easySuggestion-loading"></div>');
-                this.$loading.html(this.options.loadingTemplate);
-                this.$ol.after(this.$loading);
-                this.bindEvents();
-            };
-
-            Suggestion.prototype.bindEvents = function () {
-                var inputObj = this;
-                this.$input.on('input', function (e) {
-                    inputObj.$wrapper.addClass('loading');
-                    inputObj.options.search(e.currentTarget.value, function (array) {
-                        inputObj.$wrapper.removeClass('loading');
-                        inputObj.$ol.empty();
-                        array.forEach(function (text) {
-                            inputObj.$ol.append($('<li></li>').text(text));
-                        })
-                    })
-                })
-            }
-
-
-            var s = new Suggestion({
-                input: '#suggestion',
-                search: function (text, callback) {
-                    let array = [];
-                    //模拟数据源
-                    for (let i = 0; i < 5; i++) {
-                        var n = parseInt(Math.random() * 100, 10);
-                        array.push(text + n);
-                    }
-                    //模拟从后台获取数据
-                    setTimeout(function () {
-                        callback(array)
-                    }, 3000)
-                },
-                loadingTemplate: '<b>加载中</b>'
-
-            })
-        })
-    </script>
-
-
-
-</head>
-
-<body>
-    <input type="text" id="suggestion">
-</body>
-
-</html>
+        .easySuggestion-empty {
+            display: none;
+        }
 ```
+
