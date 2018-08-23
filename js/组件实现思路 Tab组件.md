@@ -78,7 +78,7 @@ Tabs.prototype.bindEvents = function(){
 ## 使用示例
 使用这个Tab组件时，HTML只要根据组件的要求包含必要的元素和class即可。而JS的话，只需要执行一行JS
 
-HTML
+#### HTML
 ```
 <div class="tabs xxx"> 
     <ol class="tabs-bar">
@@ -108,7 +108,7 @@ HTML
  </div>
 ```
 
-JS
+#### JS
 ```
 var tabs = new Tabs('.xxx');
 ```
