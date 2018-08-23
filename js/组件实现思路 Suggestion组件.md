@@ -146,6 +146,31 @@ function Suggestion(options) {
 
 #### js
 ```
-<input type="text" id="suggestion">
+
+            var s = new Suggestion({
+                input: '#suggestion',
+                search: function (text, callback) {
+                     //模拟数据源
+                    if (text === '0') {
+                        setTimeout(function () {
+                            return callback([]);
+                        }, 300);
+                    }
+                    console.log('真正的search')
+                    var array = [];
+                   
+                    for (let i = 0; i < 5; i++) {
+                        var n = parseInt(Math.random() * 100, 10);
+                        array.push(text + n);
+                    }
+                    //模拟从后台获取数据
+                    setTimeout(function () {
+                        callback(array)
+                    }, 1500)
+                },
+                loadingTemplate: '<b>加载中</b>',
+                emptyTemplate: '<b>没有数据</b>'
+
+            })
 ```
 
