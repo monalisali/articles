@@ -31,6 +31,9 @@ var suggestion = new Suggestion({
 - loadingTemplate: 数据加载时显示的内容
 - emptyTemplate: 没有suggestion数据时显示的内容
 
+### 注意点
+一定要做函数节流处理。不然，每在input中输入一下内容，就会发送一次请求。
+
 
 #### js
 
@@ -132,5 +135,17 @@ function Suggestion(options) {
         .easySuggestion-empty {
             display: none;
         }
+```
+
+### 组件使用
+#### html
+```
+<input type="text" id="suggestion">
+```
+
+
+#### js
+```
+<input type="text" id="suggestion">
 ```
 
