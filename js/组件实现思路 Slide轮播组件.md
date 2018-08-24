@@ -1,16 +1,25 @@
+## 接口定义
+一般来说，一个基本的Slide组件可以让用户（其他程序员）初始化元素使其变成Slide。提供一个函数来指定跳转到哪个slide, 一个属性来设置是否自动播放
+
+
+## 封装
+### 依赖
+JQuery
+
+### 接口
+- element: Slide组件必须使用ol,li元素。同时ol需要用一个div包裹，该div必须包含'.slides'
+- autoPlay: 是否自动播放。true：自动播放； false：不自动播放
+- pager: 是否使用分页器。true：使用。false：不使用。 **todo**
+
+### 组件封装注意点
+Slide组件的核心是go函数（跳转），它可以指定跳转到哪个slide。诸如：next（下一张），prev（上一张），play（开始播放），stop(停止播放)等函数都是直接或者间接通过它演变的。
+
+### 代码
+
+##### css
+
 ```
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-
-    <style>
-        .easySlides {
+.easySlides {
             overflow: hidden;
             position: relative;
         }
@@ -41,11 +50,13 @@
             right: 0;
             transform: translateY(-50%);
         }
-    </style>
 
-    <script>
-        $(document).ready(function () {
-            function Slide(options) {
+```
+
+#### JS
+
+```
+ function Slide(options) {
                 this.options = options;
                 this.timer = undefined;
                 this.$element = $(this.options.element);
@@ -113,24 +124,12 @@
                 window.clearInterval(this.timer);
             }
 
+```
 
-            var slide = new Slide({
-                element: '.slides',
-                autoPlay: true,
-                controls: false,
-                pager: false,
-            });
-
-
-
-        })
-    </script>
-
-</head>
-
-<body>
-
-    <div class="slides">
+## 组件使用
+#### HTML
+```
+ <div class="slides">
         <ol>
             <li>
                 <img src="https://upload-images.jianshu.io/upload_images/9425951-af1f2219b760c6f7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -145,8 +144,22 @@
         </ol>
     </div>
 
-
-</body>
-
-</html>
 ```
+
+#### JS
+```
+   var slide = new Slide({
+        element: '.slides',
+        autoPlay: true,
+        controls: false,
+        pager: false,
+    });
+```
+
+
+
+
+
+
+
+
