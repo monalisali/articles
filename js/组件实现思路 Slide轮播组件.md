@@ -16,7 +16,7 @@ Slide组件的核心是go函数（跳转），它可以指定跳转到哪个slid
 
 ### 代码
 
-##### css
+#### css
 
 ```
 .easySlides {
