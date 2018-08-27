@@ -211,6 +211,8 @@ var controller = {
   ],
   bindEvents() {
     this.events.map((event)=>{
+      //this[event.fnName].bind(this)绑定事件处理函数。
+      //this指的是当前controller对象，所以controller对象中必须有一个和fnName同名的函数
       $(this.view.el).on(event.type, event.selector, this[event.fnName].bind(this))
     })
   },
@@ -251,4 +253,5 @@ controller.init({view, model})
 - model: 与后台交互获取数据、更新数据
 - controller：各种业务逻辑。如按钮的事件绑定等
 
-3个对象各自独立，只在需要的地方进行联系。这样就使得代码的耦合度大大降低了。同时，需要主要`bindEvents`函数，利用它也大大降低了事件绑定的重复代码。
+3个对象各自独立，只在需要的地方进行联系。这样就使得代码的耦合度大大降低了。同时，需要注意`bindEvents`函数，利用它也大大降低了事件绑定的重复代码。
+events中每个对象的`fnName`属性值必须和实际需要绑定的函数名称一致。比如` { type: 'click', selector: '#increaseByOne', fnName: 'add' },` 那么controller对象中就必须有一个名为add的函数。否则, 点击这个按钮时会找不到对应的处理函数而报错。
