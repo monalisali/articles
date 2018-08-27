@@ -65,6 +65,7 @@ class Controller {
     Object.assign(this, rest)
     this.bindEvents()
     this.view.render(this.model.data)
+    //构建controller对象后，就会执行init函数。进行第一次页面绘制
     init.apply(this, arguments)
   }
   //使用了事件委托，事件都是绑定在根元素上的
@@ -87,6 +88,7 @@ class Controller {
   <meta charset="utf-8">
   <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+  还要引用mvc.js
   <title>JS Bin</title>
 </head>
 <body>
@@ -155,13 +157,13 @@ var controller = new Controller({
     { type: 'click', el: '#cube', fn: 'cube' }, 
     { type: 'click', el: '#reset', fn: 'reset' }
   ],
-  init(options) {
-    
+  init(options) {   
     this.model.fetch(1)
       .then(() => {
         this.view.render(this.model.data)
       })
   },
+  //下面的方法都是其他方法，就是构造函数中的...rest指代的内容
   add() {
     let newData = {number: this.model.data.number + 1}
     this.updateModel(newData)
