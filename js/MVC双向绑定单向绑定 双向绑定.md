@@ -14,28 +14,20 @@
 ```
 class EventHub {
   constructor(){
-    //events对象用来缓存所有事件处理函数
     this.events = {}
   }
-  //订阅
-  //eventName: 自定义的事件名称
-  //fn:自定义的事件处理函数
   on(eventName, fn){
     if(!this.events[eventName]){
       this.events[eventName] = []
     }
     this.events[eventName].push(fn)
   }
-  //发布（触发）
-  //eventName:时间名称
-  //params:事件处理函数的参数
   emit(eventName, params){
     let fnList = this.events[eventName]
     fnList.map((fn)=>{
       fn.apply(null, params)
     })
   }
-  //删除事件的订阅
   off(eventName, fn){
     let fnList = this.events[eventName]
     for(let i =0; i<fnList.length; i++){
@@ -46,6 +38,75 @@ class EventHub {
     }
   }
 }
+
+class Model extends EventHub{
+  constructor(options) {
+    super()
+    this.data = options.data || {}
+    this.resource = options.resource
+    this.baseUrl = options.baseUrl || '/'
+  }
+  fetch(id) {
+    return axios.get(this.baseUrl + this.resource + 's/' + id)
+      .then(({data})=>{ this.data = data; this.emit('changed') })
+  }
+  create(data) {
+    return axios.post(this.baseUrl + this.resource + 's', data)
+      .then(({data})=>{ this.data = data; this.emit('changed') })
+  }
+  destroy() {
+    let id = this.data.id
+    return axios.delete(this.baseUrl + this.resource + 's/' + id)
+      .then(()=>{ this.data = {}; this.emit('changed') })
+  }
+  update(newData) {
+    let id = this.data.id
+    return axios.put(this.baseUrl + this.resource + 's/' + id, newData)
+      .then(({data})=>{ 
+        this.data = data; 
+        this.emit('changed')
+      })
+  }
+}
+
+class View {
+  constructor({
+    el, template
+  }) {
+    this.el = el
+    this.$el = $(el)
+    this.template = template
+  }
+  render(data) {
+    let html = this.template
+    for (let key in data) {
+      let value = data[key]
+      html = html.replace(`__${key}__`, value)
+    }
+    this.$el.html(html)
+  }
+}
+
+class Controller {
+  constructor({view, model, events, init, ...rest }) {
+    this.view = view 
+    this.model = model
+    this.events = events
+    //把其他方法都拷贝到this上来
+    Object.assign(this, rest)
+    this.bindEvents()
+    this.view.render(this.model.data)
+    //构建controller对象后，就会执行init函数。进行第一次页面绘制
+    init.apply(this, arguments)
+  }
+  //使用了事件委托，事件都是绑定在根元素上的
+  bindEvents() {
+    this.events.map((e) => {
+      this.view.$el.on(e.type, e.el, this[e.fn].bind(this))
+    })
+  }
+}
+
 ```
 
 ### 使用
