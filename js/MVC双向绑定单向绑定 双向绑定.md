@@ -134,6 +134,27 @@ class Controller {
 
 #### JS
 
+注意`var controller = new Controller`中的init函数。它首先注册了changed事件，并指明了changed事件的处理函数为`this.view.render(this.model.data)`。 其次`this.model.fetch(1);`再也不用写`this.view.render(this.model.data)`了。 
+
+```
+init(options) {
+    this.model.on('changed', ()=>{
+      this.view.render(this.model.data)
+    })
+    
+    this.model.fetch(1);
+  },
+```
+
+因为`this.model.fetch(1)`会触发change事件(`this.emit('changed')`)，从而执行changed事件的处理函数。而这个处理函数在注册changed事件时就已经指定了。
+
+同理，updateModel函数也去掉了`this.view.render(this.model.data)`
+```
+ updateModel(newData) {
+    this.model.update(newData)
+  }
+```
+
 ```
 axios.interceptors.response.use(function (response) {
   let {config: {url, method, data}} = response
