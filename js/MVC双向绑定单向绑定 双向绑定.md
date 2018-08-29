@@ -279,3 +279,44 @@ var controller = new Controller({
 
 ## 2. 遗留问题2: 页面更新数据的粒度太粗了
 
+我们可以观察一下View class中的render函数，发现更新html的代码为`this.$el.html(html)` 显然，它会把整个html代码替换掉
+```
+  render(data) {
+    let html = this.template
+    for (let key in data) {
+      let value = data[key]
+      html = html.replace(`__${key}__`, value)
+    }
+    this.$el.html(html)
+  }
+
+```
+
+首先，我们在构造View对象时，为template属性添加一个input元素后
+```
+<div>
+  书名：《__name__》，
+  数量：__number__
+</div>
+<div>
+   <input />
+</div>
+<div class="actions">
+  <button id="increaseByOne">加1</button>
+  <button id="decreaseByOne">减1</button>
+  <button id="square">平方</button>
+  <button id="cube">立方</button>
+  <button id="reset">归零</button>
+</div>
+```
+- 在input元素中输入100
+- 点击任意按钮
+- **input元素中输入的100没有了**
+
+出现这个bug的原因就在于render函数替换了整个html内容，但是input中的数据并没有被View对象记录下来，替换html后自然就没有了。
+那么如何解决这个问题呢？目前分为了两派：
+1. 用户输入了什么，就记录在JS的data里(数据绑定的初步思想)
+2. 不要简单粗暴的操作innerHtml,而是只更新需要更新的部位（虚拟DOM的初步思想）
+Angular是基于第一个思想的，React是基于第二个思想的。
+
+
