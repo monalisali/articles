@@ -317,6 +317,13 @@ var controller = new Controller({
 那么如何解决这个问题呢？目前分为了两派：
 1. 用户输入了什么，就记录在JS的data里(数据绑定的初步思想)
 2. 不要简单粗暴的操作innerHtml,而是只更新需要更新的部位（虚拟DOM的初步思想）
+
 Angular是基于第一个思想的，React是基于第二个思想的。
+方案1的实现思路是： 在View class中增加一个data属性，用来记录input的数据。同时还要监听input的onchange事件以获取数据。然后在render页面的时候用data属性记录的值来回填input元素。
+
+方案2的实现思路是：只修改数据修改了的元素，其他地方不动。
+
+
+
 
 
