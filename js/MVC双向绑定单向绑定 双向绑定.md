@@ -320,7 +320,7 @@ var controller = new Controller({
 
 Angular是基于第一个思想的，React是基于第二个思想的。
 
-方案1的实现思路是： 在View class中增加一个data属性，用来记录input的数据。同时还要监听input的onchange事件以获取数据。然后在render页面的时候用data属性记录的值来回填input元素。
+方案1的实现思路是： 在View class中增加一个data属性，用来**缓存**input的数据。同时还要监听input的onchange事件以获取数据。然后在render页面的时候用data属性记录的值来回填input元素。
 
 方案2的实现思路是：只修改数据修改了的元素，其他地方不动。
 
