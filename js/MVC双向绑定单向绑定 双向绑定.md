@@ -11,23 +11,39 @@
 
 ### 修改mvc.js文件
 
+添加了一个EventHub class，它提供on,emit函数来注册和触发事件。
+- on(eventName,fn): eventName：自定义的事件名称； fn：事件处理函数。
+- emit(eventName,params): eventName: 自定义的事件名称; params:事件处理函数的参数。
+
+通过on函数，我们可以定义一个事件名称，如:'changed'和事件处理函数如：绘制页面代码 `this.view.render(this.model.data)()` 然后，在需要绘制页面时只要使用emit函数触发'changed'事件即可，emit函数会自动去执行on函数注册的'changed'事件处理函数。
+
+显然，这样的代码维护性、扩展性更好。
+
 ```
 class EventHub {
   constructor(){
+    //缓存事件处理函数
     this.events = {}
   }
+  //注册自定义事件
+  //eventName: 自定义事件名称
+  //fn：事件处理函数
   on(eventName, fn){
     if(!this.events[eventName]){
       this.events[eventName] = []
     }
     this.events[eventName].push(fn)
   }
+  //触发自定义事件
+  //eventName： 自定义事件名称
+  //parmas： 事件处理函数参数
   emit(eventName, params){
     let fnList = this.events[eventName]
     fnList.map((fn)=>{
       fn.apply(null, params)
     })
   }
+  //删除事件
   off(eventName, fn){
     let fnList = this.events[eventName]
     for(let i =0; i<fnList.length; i++){
