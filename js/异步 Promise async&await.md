@@ -1,11 +1,11 @@
 
 ## 什么是Promise
 
-Promise 是一个对象，对象里存储一个状态，这个状态是可以随着内部的执行转化的，为以下三种状态之一：等待态(Pending)、完成态(Fulfilled)、拒绝态(Rejected)。
+Promise 是一个对象，对象里存储一个状态，这个状态是可以随着内部的执行转化的，为以下三种状态之一：等待状态(Pending)、完成状态(Fulfilled)、拒绝状态(Rejected)。
 
-一开始，我们先设置好等状态从 pending 变成 fulfilled 和 rejected 的预案（当成功后我们做什么，失败时我们做什么）。
+一开始，我们先设置好状态从 pending 变成 fulfilled 和 rejected 的预案（当成功后我们做什么，失败时我们做什么）。
 
-Promise 启动之后，当满足成功的条件时我们让状态从 pending 变成 fullfilled （执行 resolve）；当满足失败的条件，我们让状态从 pending 变成 rejected（执行 reject）
+Promise 启动之后，当满足成功条件时，我们让状态从 pending 变成 fullfilled （执行 resolve）；当满足失败条件时，我们让状态从 pending 变成 rejected（执行 reject）
 
 Promise最大的作用是用来解决回调地狱。
 
