@@ -1,7 +1,7 @@
 ## Collection体系原理与常用实现
 
 > 类图
-![图](/resource/connection类图.png)
+![图](/articles/resource/connection类图.png)
 
 
 
@@ -47,11 +47,11 @@ hashCode就是一个对象的哈希值。从Object类的hashCode上的注释可�
 
 以添加人名为例，List的流程就是：在添加王五之前，会把List中所有的元素遍历一遍，即6个元素。
 
-![List添加元素](/resource/list.png)
+![List添加元素](/articles/resource/list.png)
 
 
 如果要**HashSet**存放元素的话，同样姓氏的元素会被存放在**同一个哈希桶**里面。在添加王五时，就只需遍历王姓的那个哈希桶就可以了，即1个元素，效率显然就高很多。
-![Set添加元素](/resource/set.png)
+![Set添加元素](/articles/resource/set.png)
 
 
 可以把hashCode当做对象的类型代码，相同的hashCode会存放在同一个哈希桶中。**hashCode有如下重要特性：**
@@ -208,7 +208,7 @@ Set接口主要有3中实现：HashSet，LinkedHashSet，TreeSet。 它们的特
 TreeSet中的查询和插入元素，使用了二叉树。二叉树中一个元素的左面子元素一定比它小，右面的子元素一定比它大。
 如下图所示，要查找 1 2 3 4 5 6。 如果用ArrayList来存放，查找4就是要找4次，查找6就要找6次。如果用TreeSet来存放，查找4只要3次，查找6页只要3次。
 
-![二叉树](/resource/二叉树.png)
+![二叉树](/articles/resource/二叉树.png)
 
 ### 5 Collections工具方法集合
 **在Java世界中有个约定，一个类的工具类的实现，一般后面加个s，如：Collection的工具类就是Collections”
