@@ -1,6 +1,9 @@
-### 1. @Mapper是让接口直接变成一个Mybatis mapper
+## 1.@Mapper
 
-#### 1.1 不使用@Mapper的时候
+@Mapper是让接口直接变成一个Mybatis mapper
+
+### 1.1 不使用@Mapper的时候
+
 接口：
 ```
 public interface UserMapper {
@@ -60,7 +63,7 @@ public interface UserMapper {
     }
 ```
 
-#### 1.2 使用@Mapper的时候
+### 1.2 使用@Mapper的时候
 使用@Mapper后1.1中的代码可以简化很多，@Mapper直接就把UserMapper Interface变成了MyBatis Mapper
 接口：
 ```
@@ -95,6 +98,8 @@ public interface UserMapper {
        return userMapper.getUserById(id);
     }
 ```
+
+## 2. @Service
 
 
 
