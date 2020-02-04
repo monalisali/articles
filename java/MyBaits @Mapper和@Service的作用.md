@@ -199,7 +199,7 @@ public class OrderService {
 
 ```
 
-@Service已经把OrderDao和OrderService了，所以就不需要配置文件了，直接把OrderService注入进来就可以使用了。
+@Service已经把OrderDao和OrderService变为JavaBean了，所以就不需要配置文件了（**这里说的可以不要的那个配置文件指的是：写<bean>配置的那个文件，而不是写sql语句的配置文件。其实应该有一个配置文件来写sql，然后在OrderDao的`doSomething()`中调用，这里为了简单就没有写这个配置文件。**），直接把OrderService注入进来就可以使用了。
 ```
  @Autowired
  OrderService orderService;
