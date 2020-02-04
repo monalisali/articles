@@ -135,7 +135,7 @@ public class OrderService {
 
 ```
 
-resources目录下的config.xml文件
+resources目录下的config.xml文件，通过<bean>配置项来告诉Spring哪些Java对象是要当做Bean来处理的。
 ```
 <?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -155,7 +155,7 @@ resources目录下的config.xml文件
 </beans>
 ```
 
-使用时需要通过BeanFactory对象来获取Bean对象，而BeanFactory创建时需要把config.xml作为参数。
+虽然配置文件中配置了Bean，当Spring并不会自动把这些对象变成Java Bean。所以需要通过配置文件来获取<bean>的配置项，再创建出Java Bean(OrderService)后才能正常使用`doSomething()`
 ```
  public void OrderServiceDoSomething(){
    //BeanFactory就是Spring容器
