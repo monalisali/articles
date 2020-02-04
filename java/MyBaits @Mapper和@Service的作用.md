@@ -1,6 +1,6 @@
 ## 1.@Mapper
 
-@Mapper是让接口直接变成一个Mybatis mapper
+@Mapper针对的是：MyBatis的**接口 + 注解**使用方式，它可以让接口直接变成一个Mybatis Mapper，从而减少代码。
 
 ### 1.1 不使用@Mapper的时候
 
@@ -101,7 +101,111 @@ public interface UserMapper {
 
 ## 2. @Service
 
+@Service针对的是：MyBatis的**XML配置文件**使用方式，它可以让接口直接变成一个Java Bean，从而减少代码。
 
+### 2.1 不使用@Service的使用
 
+OrderDao.java
+```
+package Spring;
 
+public class OrderDao {
+    public void select(){
+        System.out.println("select!");
+    }
+}
+
+```
+
+OrderService.java
+```
+package Spring;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class OrderService {
+    //@Autowired 告诉Spring, 这个OrderDao对象是要自动装配的
+    @Autowired
+    private OrderDao orderDao;
+
+    public void doSomething(){
+        orderDao.select();
+        System.out.println("user service do something");
+    }
+}
+
+```
+
+resources目录下的config.xml文件
+```
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd ">
+
+    <!--有了这个配置，Spring才能识别注解，如:@Autowired-->
+    <context:annotation-config/>
+
+    <!--bean在Spring中就是Java对象，这里的bean配置就是告诉Spring，有哪些Java对象需要处理-->
+    <bean id="orderDao" class="Spring.OrderDao"/>
+    <bean id="orderService" class="Spring.OrderService"/>
+</beans>
+```
+
+使用时需要通过BeanFactory对象来获取Bean对象，而BeanFactory创建时需要把config.xml作为参数。
+```
+ public void OrderServiceDoSomething(){
+   //BeanFactory就是Spring容器
+   BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:config.xml");
+   OrderService orderService = (OrderService)beanFactory.getBean("orderService");
+   orderService.doSomething();
+ }
+ ```
+
+### 2.2使用@Service时
+
+OrderDao.java
+```
+package Spring;
+
+@Service
+public class OrderDao {
+    public void select(){
+        System.out.println("select!");
+    }
+}
+
+```
+
+OrderService.java
+```
+package Spring;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Service
+public class OrderService {
+    //@Autowired 告诉Spring, 这个OrderDao对象是要自动装配的
+    @Autowired
+    private OrderDao orderDao;
+
+    public void doSomething(){
+        orderDao.select();
+        System.out.println("user service do something");
+    }
+}
+
+```
+
+@Service已经把OrderDao和OrderService了，所以就不需要配置文件了。在使用时，直接把OrderService注入进来就而已使用了。
+```
+ @Autowired
+ OrderService orderService;
+ 
+ public void OrderServiceDoSomething(){
+   orderService.doSomething();
+ }
+ ```
 
