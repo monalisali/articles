@@ -87,7 +87,7 @@ public interface UserMapper {
 ```
 
 在一个Controller中要使用`getUserById()`  
-现在Mapper已经被@Mapper创建出来了，只要把它注入进来就可以用了。
+现在Mapper已经被@Mapper创建出来了，只要把它注入进来就可以用了。而且现在不需要自己创建Mapper了，配置文件也少了很多。
 
 ```
   @Autowired
@@ -199,7 +199,7 @@ public class OrderService {
 
 ```
 
-@Service已经把OrderDao和OrderService了，所以就不需要配置文件了。在使用时，直接把OrderService注入进来就而已使用了。
+@Service已经把OrderDao和OrderService了，所以就不需要配置文件了，直接把OrderService注入进来就可以使用了。
 ```
  @Autowired
  OrderService orderService;
