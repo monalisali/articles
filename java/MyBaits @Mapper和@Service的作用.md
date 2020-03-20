@@ -105,6 +105,16 @@ public interface UserMapper {
  }
 ```
 
+### 1.3 注意点
+1. 无论使用何种方式，配置文件中的`<mappers>`配置项都必须有
+```
+<mappers>       
+  <mapper class="xdml.dao.UserMapper" />
+</mappers>
+```
+
+
+
 ## 2. @Service
 
 @Service针对的是：MyBatis的**XML配置文件**使用方式，它可以让接口直接变成一个Java Bean，从而减少代码。
@@ -164,7 +174,7 @@ resources目录下的config.xml文件，通过<bean>配置项来告诉Spring哪�
 ```
 
 4. 使用
-虽然配置文件中配置了Bean，当Spring并不会自动把这些对象变成Java Bean。所以需要通过配置文件来获取`<bean>`配置项中的内容，再创建出Java Bean(OrderService)后才能正常使用`doSomething()`
+虽然配置文件中配置了Bean，但Spring并不会自动把这些对象变成Java Bean。所以需要先通过配置文件来获取`<bean>`配置项中的内容，然后再创建出Java Bean(OrderService)后，才能正常使用`doSomething()`
 ```
  public void OrderServiceDoSomething(){
    //BeanFactory就是Spring容器
