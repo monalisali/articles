@@ -164,7 +164,7 @@ resources目录下的config.xml文件，通过<bean>配置项来告诉Spring哪�
 ```
 
 4. 使用
-虽然配置文件中配置了Bean，当Spring并不会自动把这些对象变成Java Bean。所以需要通过配置文件来获取<bean>的配置项，再创建出Java Bean(OrderService)后才能正常使用`doSomething()`
+虽然配置文件中配置了Bean，当Spring并不会自动把这些对象变成Java Bean。所以需要通过配置文件来获取`<bean>`配置项中的内容，再创建出Java Bean(OrderService)后才能正常使用`doSomething()`
 ```
  public void OrderServiceDoSomething(){
    //BeanFactory就是Spring容器
